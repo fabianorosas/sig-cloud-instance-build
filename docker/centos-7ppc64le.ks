@@ -89,15 +89,10 @@ passwd -l root
 #LANG="en_US"
 #echo "%_install_lang $LANG" > /etc/rpm/macros.image-language-conf
 
-awk '(NF==0&&!done){print "override_install_langs='$LANG'\ntsflags=nodocs";done=1}{print}' \
+awk '(NF==0&&!done){print "override_install_langs=en_US.utf8\ntsflags=nodocs";done=1}{print}' \
     < /etc/yum.conf > /etc/yum.conf.new
 mv /etc/yum.conf.new /etc/yum.conf
 echo 'container' > /etc/yum/vars/infra
-
-rm -f /usr/lib/locale/locale-archive
-
-#Setup locale properly
-localedef -v -c -i en_US -f UTF-8 en_US.UTF-8
 
 rm -rf /var/cache/yum/*
 rm -f /tmp/ks-script*
